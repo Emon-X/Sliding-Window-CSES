@@ -15,43 +15,37 @@ ll dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
 ll dy[] = {0, 0, 1, -1, 1, -1, 1, -1};
 template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
- 
+
 void domain_expension()
 {
-    ll n, k;
+    ll n,k;
     cin >> n >> k;
     vector<ll>s(n);
     for(int i=0;i<n;i++) cin >> s[i];
- 
-    map<ll,ll>mp;
-    map<ll,set<ll>>map_freq;
 
-    for(int i=0;i<k;i++){
-        if(mp[s[i]]>0){
-            map_freq[mp[s[i]]].erase(s[i]);
+    ordered_set<pair<ll,ll>> st ;
+    for(int i=0;i<k;i++) st.insert({s[i],i});
+
+    ll cost = 0;
+    ll mid = (k%2 ? k/2 : (k-1)/2);
+
+    for(int i=0;i<k;i++) cost+=abs(st.find_by_order(mid)->first-s[i]);
+
+    cout << cost << " ";
+
+    for(int i=k;i<n;i++){
+
+        ll old_mid = st.find_by_order(mid)->first;
+        st.erase({s[i-k],i-k});
+        st.insert({s[i],i});
+        ll new_mid = st.find_by_order(mid)->first;
+
+        ll x = abs(new_mid - s[i])-abs(s[i-k]-old_mid);
+        cost+=x;
+        if(k%2==0){
+            cost-=(new_mid-old_mid);
         }
-        mp[s[i]]++;
-        map_freq[mp[s[i]]].insert(s[i]);
-    }
-    cout << *map_freq.rbegin()->second.begin() << " ";
-
-    for(int i=k;i<n;i++)
-    {
-        // out of window
-        map_freq[mp[s[i-k]]].erase(s[i-k]);
-        if(map_freq[mp[s[i-k]]].empty()) map_freq.erase(mp[s[i-k]]);
-        mp[s[i-k]]--;
-        if(mp[s[i-k]]>0) map_freq[mp[s[i-k]]].insert(s[i-k]);
-        else mp.erase(s[i-k]);
-
-        // in of window
-
-         if(mp[s[i]]>0){
-            map_freq[mp[s[i]]].erase(s[i]);
-        }
-        mp[s[i]]++;
-        map_freq[mp[s[i]]].insert(s[i]);
-        cout << *map_freq.rbegin()->second.begin() << " ";
+        cout << cost << " ";
     }
     cout << endl;
 }

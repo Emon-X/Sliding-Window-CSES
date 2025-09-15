@@ -1,0 +1,1 @@
+{"name":"Local: Sliding Window Or","url":"d:\\CODE\\Sliding-Window-CSES\\Sliding Window Or.cpp","tests":[{"id":1757930002359,"input":"8 5\n3 7 1 11","output":""},{"id":1757952652853,"input":"100 20\n3 7 1 997","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\CODE\\Sliding-Window-CSES\\Sliding Window Or.cpp","group":"local","local":true}
